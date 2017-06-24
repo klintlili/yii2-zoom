@@ -8,8 +8,8 @@
             "email": "ge2x3k2@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "minimum-stability": "stable",
+    // "prefer-stable": true,
     "require": {},
     "autoload": {
         "psr-4": {
