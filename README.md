@@ -11,18 +11,22 @@
 
 ## Configuration
 - yii2
-		"zoom" => [
-		        "api_key" => "",
-		        "api_secret" => "",
-		        "data_type" => "JSON",
-		        "api_url"=>"https://api.zoom.us/v1/"
-		]
+```
+"zoom" => [
+	"api_key" => "",
+	"api_secret" => "",
+	"data_type" => "JSON",
+	"api_url"=>"https://api.zoom.us/v1/"
+]
+```
 
 ## Usage example
 - yii2
-		use Zoom\Restful\ZoomServiceHelpers;
-		// Automatically create users
-		ZoomServiceHelpers::autoCreateUser($userEmail, $userPassword);
+```
+use Zoom\Restful\ZoomServiceHelpers;
+// Automatically create users
+ZoomServiceHelpers::autoCreateUser($userEmail, $userPassword);
+```
 
 ## Scalable
 
