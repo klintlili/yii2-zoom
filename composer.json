@@ -13,7 +13,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-		"Zoom\\Restful": "src/Zoom/Restful"
+		"Zoom\\Restful\\": "src/Zoom/Restful"
         }
     }
 }
