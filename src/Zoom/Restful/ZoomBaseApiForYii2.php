@@ -15,20 +15,25 @@ use yii\base\Component;
  * @date 2017-06-24 04:11 PM
  * @version 1.0
  */
-class ZoomBaseApi extends Component
+class ZoomBaseApiForYii2
 {
 	private static $_instance;
 
-	private $url;
-	private $api_key;
-	private $api_secret;
-	private $data_type;
+	private static $url;
+	private static $api_key;
+	private static $api_secret;
+	private static $data_type;
 
 	/**
 	 * Prevents classes from being instantiated
 	 */
 	private function __construct()
-	{}
+	{
+		self::$url = \Yii::$app->params['zoom']['api_url'];
+		self::$api_key = \Yii::$app->params['zoom']['api_key'];
+		self::$api_secret = \Yii::$app->params['zoom']['api_secret'];
+		self::$data_type = \Yii::$app->params['zoom']['data_type'];
+	}
 
 	/**
 	 * Prevent the class from being cloned
@@ -52,12 +57,12 @@ class ZoomBaseApi extends Component
 	private function sendRequest($calledFunction, $data)
 	{
 		/*Creates the endpoint URL*/
-		$request_url = $this->$url.$calledFunction;
+		$request_url = self::$url.$calledFunction;
 
 		/*Adds the Key, Secret, & Datatype to the passed array*/
-		$data['api_key'] = $this->$api_key;
-		$data['api_secret'] = $this->$api_secret;
-		$data['data_type'] = $this->$data_type;
+		$data['api_key'] = self::$api_key;
+		$data['api_secret'] = self::$api_secret;
+		$data['data_type'] = self::$data_type;
 
 		$postFields = http_build_query($data);
 		/*Check to see queried fields*/
