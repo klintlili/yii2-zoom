@@ -19,7 +19,7 @@ class ZoomServiceHelpers
 	private static function getService()
 	{
 		if (null == self::$service) {
-			self::$service = ZoomRestApi::getInstance();
+			self::$service = ZoomBaseApi::getInstance();
 		}
 		return self::$service;
 	}
