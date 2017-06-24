@@ -1,0 +1,18 @@
+{
+    "name": "xiankun/zoom-yii2",
+    "description": "Use the composer to wrap the restfulapi interface of zoom",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xiankun.geng",
+            "email": "ge2x3k2@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+    "autoload": {
+        "psr-4": {
+		"Zoom\\Restful": "src/Zoom/Restful"
+        }
+    }
+}
