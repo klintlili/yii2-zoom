@@ -10,7 +10,9 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "require": {},
+    "require": {
+    	"guzzlehttp/guzzle": "~6.0@dev"
+    },
     "autoload": {
         "psr-4": {
 		"Zoom\\Restful\\": "src/Zoom/Restful"
