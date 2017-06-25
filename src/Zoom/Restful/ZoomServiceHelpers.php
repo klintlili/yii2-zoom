@@ -2,7 +2,7 @@
 namespace Zoom\Restful;
 
 /**
- * @class ZoomServiceHelpers
+ * ZoomServiceHelpers
  * @property object $service
  *
  * @author xiankun.geng <ge2x3k2@gmail.com>
