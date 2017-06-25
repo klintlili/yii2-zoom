@@ -6,6 +6,12 @@
 
 > Official website [https://zoom.us/](https://zoom.us/)
 
+## Features
+
+> The factory model tool class can scale different frames of zoomapi, in fact, the most important need to change the call of different frame configuration files, follow-up will update more frames
+
+> Use more complete and efficient Guzzle instead of curl to send the request
+
 ## Install
 `composer require xiankun/zoom-restful-api "@dev" -vvv`
 
@@ -27,9 +33,3 @@ use Zoom\Restful\ZoomServiceHelpers;
 // Automatically create users
 ZoomServiceHelpers::autoCreateUser($userEmail, $userPassword);
 ```
-
-## Features
-
-> The factory model tool class can scale different frames of zoomapi, in fact, the most important need to change the call of different frame configuration files, follow-up will update more frames
-
-> Use more complete and efficient Guzzle instead of curl to send the request
