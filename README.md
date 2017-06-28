@@ -18,6 +18,7 @@
 ## Configuration
 - yii2
 ```
+// vim common/config/parmas-local.php
 "zoom" => [
 	"api_key" => "",
 	"api_secret" => "",
