@@ -1,6 +1,6 @@
 {
-    "name": "xiankun/zoom-restful-api",
-    "description": "Use the composer to wrap the restfulapi interface of zoom",
+    "name": "xiankun/zoom-yii2",
+    "description": "Yii 2的扩展包装Zoom",
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-		"Zoom\\Restful\\": "src/Zoom/Restful"
+		"xiankun\\Zoom\\": "src/Zoom"
         }
     }
 }

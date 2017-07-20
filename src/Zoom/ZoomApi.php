@@ -1,5 +1,5 @@
 <?php
-namespace Zoom\Restful;
+namespace xiankun\Zoom;
 
 use GuzzleHttp\Client;
 use yii\base\Component;
@@ -10,7 +10,7 @@ use yii\base\Component;
  * @time 2017-07-20
  * @version 2.0
  */
-class ZoomBaseApiForYii2 extends Component
+class ZoomApi extends Component
 {
     /** @const string ZOOM基本URL */
     const ZOOM_BASE_URL = "https://api.zoom.us/v1/";
@@ -447,4 +447,4 @@ class ZoomBaseApiForYii2 extends Component
         return $this->sendRequest(self::ZOOM_GETUSERREPORT_REPORT_URI, $getUserReportArray);
     }
 }
-/** End of file for ZoomBaseApi.php */
+/** End of file for ZoomApi.php */
