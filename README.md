@@ -12,6 +12,7 @@
 ## Configuration
 - yii2
 ```
+// vim common/config/parmas-local.php
 "zoom" => [
 	"api_key" => "",
 	"api_secret" => "",
@@ -27,7 +28,3 @@ use Zoom\Restful\ZoomServiceHelpers;
 // Automatically create users
 ZoomServiceHelpers::autoCreateUser($userEmail, $userPassword);
 ```
-
-## Scalable
-
-> The factory model tool class can scale different frames of zoomapi, in fact, the most important need to change the call of different frame configuration files, follow-up will update more frames
