@@ -2,57 +2,116 @@
 namespace Zoom\Restful;
 
 use GuzzleHttp\Client;
+use yii\base\Component;
 
 /**
- * ZoomBaseApi for Yii2
- * @property object $_instance singleton
- * @property object $_guzzleClient cache the Guzzle client
- * @property string $url zoom basic access link
- * @property string $api_key Provided by zoom
- * @property string $api_secret Provided by zoom
- * @property string $date_type Zoom The format in which the data is returned: JSON/XML
- *
+ * ZoomBaseApiForYii2
  * @author xiankun.geng <ge2x3k2@gmail.com>
- * @date 2017-06-24 04:11 PM
- * @version 1.0
+ * @time 2017-07-20
+ * @version 2.0
  */
-class ZoomBaseApiForYii2
+class ZoomBaseApiForYii2 extends Component
 {
-    private static $_instance;
-    private static $_guzzleClient;
+    /** @const string ZOOM基本URL */
+    const ZOOM_BASE_URL = "https://api.zoom.us/v1/";
 
-    private static $url;
-    private static $api_key;
-    private static $api_secret;
-    private static $data_type;
+    /** @const string 创建一个用户的URI */
+    const ZOOM_CREATE_USER_URI = "user/create";
+    
+    /** @const string 免验证创建用户的URI */
+    const ZOOM_AUTO_CREATE_USER_URI = "user/autocreate";
 
-    /**
-     * Prevents classes from being instantiated
-     */
-    private function __construct()
+    /** @const string */
+    const ZOOM_CUST_CREATE_USER_URI = "user/custcreate";
+
+    /** @const string 删除一个用户的URI */
+    const ZOOM_DELETE_USER_URI = "user/delete";
+
+    /** @const string 列出所有用户的URI */
+    const ZOOM_LIST_USER_URI = "user/list";
+
+    /** @const string 列出ZOOM上所有待定用户的URI */
+    const ZOOM_PENDING_USER_URI = "user/pending";
+
+    /** @const string 根据用户id获取用户信息的URI */
+    const ZOOM_GET_USER_URI = "user/get";
+
+    /** @const string 根据用户email获取用户信息的URI */
+    const ZOOM_GETBYEMAIL_USER_URI = "user/getbyemail";
+
+    /** @const string 更新用户信息的URI */
+    const ZOOM_UPDATE_USER_URI = "user/update";
+
+    /** @const string 通过用户id更改用户密码的URI */
+    const ZOOM_UPDATEPASSWORD_USER_URI = "user/updatepassword";
+
+    /** @const string 设置可为他安排的助理的URI */
+    const ZOOM_SET_ASSISTANT_USER_URI = "user/assistant/set";
+
+    /** @const string 删除助理的URI */
+    const ZOOM_DELETE_ASSISTANT_USER_URI = "user/assistant/delete";
+
+    /** @const string 删除用户sso令牌的URI */
+    const ZOOM_REVOKETOKEN_USER_URI = "user/revoketoken";
+
+    /** @const string 永久从zoom系统删除用户的URI */
+    const ZOOM_PERMANENTDELETE_USER = "user/permanentdelete";
+
+    /** @const string 创建一个会议的URI */
+    const ZOOM_CREATE_MEETING = "meeting/create";
+
+    /** @const string 删除一个会议的URI */
+    const ZOOM_DELETE_MEETING_URI = "meeting/delete";
+
+    /** @const string 列出会议的URI */
+    const ZOOM_LIST_MEETING = "meeting/list";
+
+    /** @const string 列出在线的会议的URI */
+    const ZOOM_LIVE_MEETING_URI = "meeting/live";
+
+    /** @const string 获取会议详情的URI */
+    const ZOOM_GET_MEETING_URI = "meeting/get";
+
+    /** @const string 更新会议详情的URI */
+    const ZOOM_UPDATE_MEETING_URI = "meeting/update";
+
+    /** @const string 结束一个会议的URI */
+    const ZOOM_END_MEETING_URI = "meeting/end";
+
+    /** @const string 获取一个月的每日报告，只能获取最近3个月的每日报告的URI */
+    const ZOOM_GETDAILYREPORT_REPORT_URI = "report/getdailyreport";
+
+    /** @const string 获取指定时间段的帐户报告的URI */
+    const ZOOM_GETACCOUNTREPORT_REPORT_URI = "report/getaccountreport";
+
+    /** @const string 获取指定时间段的用户报告的URI */
+    const ZOOM_GETUSERREPORT_REPORT_URI = "report/getuserreport";
+
+    /** @var string ZOOM API KEY */
+    public $api_key;
+
+    /** @var string ZOOM API SECRET */
+    public $api_secret;
+
+    /** @var string ZOOM DATE FORMAT */
+    public $data_type;
+
+    /** @var object Guzzle客户端 */
+    private static $_guzzle_client;
+
+    public function init()
     {
-        // Yii2 parmas-local
-        self::$url = \Yii::$app->params['zoom']['api_url'];
-        self::$api_key = \Yii::$app->params['zoom']['api_key'];
-        self::$api_secret = \Yii::$app->params['zoom']['api_secret'];
-        self::$data_type = \Yii::$app->params['zoom']['data_type'];
-    }
-
-    /**
-     * Prevent the class from being cloned
-     */
-    private function __clone()
-    {}
-
-    /**
-     * Get a single instance
-     */
-    public static function getInstance()
-    {
-        if (!(self::$_instance instanceof self)) {
-            self::$_instance = new self;
+        if ($this->api_key == null) {
+            throw new InvalidParamException("api_key does not exist.");
         }
-        return self::$_instance;
+
+        if ($this->api_secret == null) {
+            throw new InvalidParamException("api_secret does not exist.");
+        }
+
+        if ($this->data_type == null) {
+            throw new InvalidParamException("data_type does not exist.");
+        }
     }
 
     /**
@@ -81,9 +140,9 @@ class ZoomBaseApiForYii2
     private function sendRequest($calledFunction, $data)
     {
         //Adds the Key, Secret, & Datatype to the passed array
-        $data['api_key'] = self::$api_key;
-        $data['api_secret'] = self::$api_secret;
-        $data['data_type'] = self::$data_type;
+        $data['api_key'] = $this->api_key;
+        $data['api_secret'] = $this->api_secret;
+        $data['data_type'] = $this->data_type;
 
         // Used Guzzle get the data in JSON format
         $client = self::getClient();
@@ -113,7 +172,7 @@ class ZoomBaseApiForYii2
         $createAUserArray = array();
         $createAUserArray['email'] = $userEmail;
         $createAUserArray['type'] = $userType;
-        return $this->sendRequest('user/create', $createAUserArray);
+        return $this->sendRequest(self::ZOOM_CREATE_USER_URI, $createAUserArray);
     }
 
     /**
@@ -128,7 +187,7 @@ class ZoomBaseApiForYii2
         $autoCreateAUserArray['email'] = $userEmail;
         $autoCreateAUserArray['type'] = $userType;
         $autoCreateAUserArray['password'] = $userPassword;
-        return $this->sendRequest('user/autocreate', $autoCreateAUserArray);
+        return $this->sendRequest(self::ZOOM_AUTO_CREATE_USER_URI, $autoCreateAUserArray);
     }
 
     /**
@@ -141,7 +200,7 @@ class ZoomBaseApiForYii2
         $custCreateAUserArray['email'] = $userEmail;
         $custCreateAUserArray['type'] = $userType;
         $custCreateAUserArray['password'] = $password;
-        return $this->sendRequest('user/custcreate', $custCreateAUserArray);
+        return $this->sendRequest(self::ZOOM_CUST_CREATE_USER_URI, $custCreateAUserArray);
     }
 
     /**
@@ -152,7 +211,7 @@ class ZoomBaseApiForYii2
     {
         $deleteUserArray = array();
         $deleteUserArray['id'] = $userId;
-        return $this->sendRequest('user/delete', $deleteUserArray);
+        return $this->sendRequest(self::ZOOM_DELETE_USER_URI, $deleteUserArray);
     }
 
     /**
@@ -161,7 +220,7 @@ class ZoomBaseApiForYii2
     public function listUsers()
     {
         $listUsersArray = array();
-        return $this->sendRequest('user/list', $listUsersArray);
+        return $this->sendRequest(self::ZOOM_LIST_USER_URI, $listUsersArray);
     }
 
     /**
@@ -170,7 +229,7 @@ class ZoomBaseApiForYii2
     public function listPendingUsers()
     {
         $listPendingUsersArray = array();
-        return $this->sendRequest('user/pending', $listPendingUsersArray);
+        return $this->sendRequest(self::ZOOM_PENDING_USER_URI, $listPendingUsersArray);
     }
 
     /**
@@ -181,7 +240,7 @@ class ZoomBaseApiForYii2
     {
         $getUserInfoArray = array();
         $getUserInfoArray['id'] = $userId;
-        return $this->sendRequest('user/get',$getUserInfoArray);
+        return $this->sendRequest(self::ZOOM_GET_USER_URI,$getUserInfoArray);
     }
 
     /**
@@ -194,7 +253,7 @@ class ZoomBaseApiForYii2
         $getUserInfoByEmailArray = array();
         $getUserInfoByEmailArray['email'] = $userEmail;
         $getUserInfoByEmailArray['login_type'] = $userLoginType;
-        return $this->sendRequest('user/getbyemail',$getUserInfoByEmailArray);
+        return $this->sendRequest(self::ZOOM_GETBYEMAIL_USER_URI, $getUserInfoByEmailArray);
     }
 
     /**
@@ -204,7 +263,7 @@ class ZoomBaseApiForYii2
     {
         $updateUserInfoArray = array();
         $updateUserInfoArray['id'] = $userId;
-        return $this->sendRequest('user/update',$updateUserInfoArray);
+        return $this->sendRequest(self::ZOOM_UPDATE_USER_URI, $updateUserInfoArray);
     }
 
     /**
@@ -215,7 +274,7 @@ class ZoomBaseApiForYii2
         $updateUserPasswordArray = array();
         $updateUserPasswordArray['id'] = $userId;
         $updateUserPasswordArray['password'] = $userNewPassword;
-        return $this->sendRequest('user/updatepassword', $updateUserPasswordArray);
+        return $this->sendRequest(self::ZOOM_UPDATEPASSWORD_USER_URI, $updateUserPasswordArray);
     }
 
     /**
@@ -227,7 +286,7 @@ class ZoomBaseApiForYii2
         $setUserAssistantArray['id'] = $userId;
         $setUserAssistantArray['host_email'] = $userEmail;
         $setUserAssistantArray['assistant_email'] = $assistantEmail;
-        return $this->sendRequest('user/assistant/set', $setUserAssistantArray);
+        return $this->sendRequest(self::ZOOM_SET_ASSISTANT_USER_URI, $setUserAssistantArray);
     }
 
     /**
@@ -239,7 +298,7 @@ class ZoomBaseApiForYii2
         $deleteUserAssistantArray['id'] = $userId;
         $deleteUserAssistantArray['host_email'] = $userEmail;
         $deleteUserAssistantArray['assistant_email'] = $assistantEmail;
-        return $this->sendRequest('user/assistant/delete',$deleteUserAssistantArray);
+        return $this->sendRequest(self::ZOOM_DELETE_ASSISTANT_USER_URI, $deleteUserAssistantArray);
     }
 
     /**
@@ -250,7 +309,7 @@ class ZoomBaseApiForYii2
         $revokeSSOTokenArray = array();
         $revokeSSOTokenArray['id'] = $userId;
         $revokeSSOTokenArray['email'] = $userEmail;
-        return $this->sendRequest('user/revoketoken', $revokeSSOTokenArray);
+        return $this->sendRequest(self::ZOOM_REVOKETOKEN_USER_URI, $revokeSSOTokenArray);
     }
 
     /**
@@ -261,7 +320,7 @@ class ZoomBaseApiForYii2
         $deleteUserPermanentlyArray = array();
         $deleteUserPermanentlyArray['id'] = $userId;
         $deleteUserPermanentlyArray['email'] = $userEmail;
-        return $this->sendRequest('user/permanentdelete', $deleteUserPermanentlyArray);
+        return $this->sendRequest(self::ZOOM_PERMANENTDELETE_USER, $deleteUserPermanentlyArray);
     }
 
     /*Functions for management of meetings*/
@@ -287,7 +346,7 @@ class ZoomBaseApiForYii2
         $createAMeetingArray['timezone'] = $timezone;
         $createAMeetingArray['password'] = $password;
         $createAMeetingArray['option_jbh'] = $option_jbh;
-        return $this->sendRequest('meeting/create', $createAMeetingArray);
+        return $this->sendRequest(self::ZOOM_CREATE_MEETING, $createAMeetingArray);
     }
 
     /**
@@ -298,7 +357,7 @@ class ZoomBaseApiForYii2
         $deleteAMeetingArray = array();
         $deleteAMeetingArray['id'] = $meetingId;
         $deleteAMeetingArray['host_id'] = $userId;
-        return $this->sendRequest('meeting/delete', $deleteAMeetingArray);
+        return $this->sendRequest(self::ZOOM_DELETE_MEETING_URI, $deleteAMeetingArray);
     }
 
     /**
@@ -308,7 +367,7 @@ class ZoomBaseApiForYii2
     {
         $listMeetingsArray = array();
         $listMeetingsArray['host_id'] = $userId;
-        return $this->sendRequest('meeting/list',$listMeetingsArray);
+        return $this->sendRequest(self::ZOOM_LIST_MEETING, $listMeetingsArray);
     }
 
     /**
@@ -317,7 +376,7 @@ class ZoomBaseApiForYii2
     public function listLiveMeetings()
     {
         $listLiveMeetingArray = array();
-        return $this->sendRequest('meeting/live',$listLiveMeetingArray);
+        return $this->sendRequest(self::ZOOM_LIVE_MEETING_URI, $listLiveMeetingArray);
     }
 
     /**
@@ -328,7 +387,7 @@ class ZoomBaseApiForYii2
         $getMeetingInfoArray = array();
         $getMeetingInfoArray['id'] = $meetingId;
         $getMeetingInfoArray['host_id'] = $userId;
-        return $this->sendRequest('meeting/get', $getMeetingInfoArray);
+        return $this->sendRequest(self::ZOOM_GET_MEETING_URI, $getMeetingInfoArray);
     }
 
     /**
@@ -339,7 +398,7 @@ class ZoomBaseApiForYii2
         $updateMeetingInfoArray = array();
         $updateMeetingInfoArray['id'] = $meetingId;
         $updateMeetingInfoArray['host_id'] = $userId;
-        return $this->sendRequest('meeting/update', $updateMeetingInfoArray);
+        return $this->sendRequest(self::ZOOM_UPDATE_MEETING_URI, $updateMeetingInfoArray);
     }
 
     /**
@@ -350,7 +409,7 @@ class ZoomBaseApiForYii2
         $endAMeetingArray = array();
         $endAMeetingArray['id'] = $meetingId;
         $endAMeetingArray['host_id'] = $userId;
-        return $this->sendRequest('meeting/end', $endAMeetingArray);
+        return $this->sendRequest(self::ZOOM_END_MEETING_URI, $endAMeetingArray);
     }
 
     /*Functions for management of reports*/
@@ -362,7 +421,7 @@ class ZoomBaseApiForYii2
         $getDailyReportArray = array();
         $getDailyReportArray['year'] = $year;
         $getDailyReportArray['month'] = $_POST['month'];
-        return $this->sendRequest('report/getdailyreport', $getDailyReportArray);
+        return $this->sendRequest(self::ZOOM_GETDAILYREPORT_REPORT_URI, $getDailyReportArray);
     }
 
     /**
@@ -373,7 +432,7 @@ class ZoomBaseApiForYii2
         $getAccountReportArray = array();
         $getAccountReportArray['from'] = $from;
         $getAccountReportArray['to'] = $to;
-        return $this->sendRequest('report/getaccountreport', $getAccountReportArray);
+        return $this->sendRequest(self::ZOOM_GETACCOUNTREPORT_REPORT_URI, $getAccountReportArray);
     }
 
     /**
@@ -385,7 +444,7 @@ class ZoomBaseApiForYii2
         $getUserReportArray['user_id'] = $userId;
         $getUserReportArray['from'] = $from;
         $getUserReportArray['to'] = $to;
-        return $this->sendRequest('report/getuserreport', $getUserReportArray);
+        return $this->sendRequest(self::ZOOM_GETUSERREPORT_REPORT_URI, $getUserReportArray);
     }
 }
 /** End of file for ZoomBaseApi.php */
