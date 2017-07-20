@@ -1,4 +1,4 @@
-# Zoom-restful-api
+# Zoom-yii2
 
 ## What is zoom?
 
@@ -7,24 +7,16 @@
 > Official website [https://zoom.us/](https://zoom.us/)
 
 ## Install
-`composer require xiankun/zoom-restful-api "@dev" -vvv`
+`composer require xiankun/zoom-yii2 "@dev" -vvv`
 
 ## Configuration
 - yii2
 ```
-// vim common/config/parmas-local.php
-"zoom" => [
-	"api_key" => "",
-	"api_secret" => "",
-	"data_type" => "JSON",
-	"api_url"=>"https://api.zoom.us/v1/"
-]
+
 ```
 
 ## Usage example
 - yii2
 ```
-use Zoom\Restful\ZoomServiceHelpers;
-// Automatically create users
-ZoomServiceHelpers::autoCreateUser($userEmail, $userPassword);
+
 ```
