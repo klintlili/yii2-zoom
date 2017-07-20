@@ -3,6 +3,7 @@ namespace xiankun\Zoom;
 
 use GuzzleHttp\Client;
 use yii\base\Component;
+use yii\web\HttpException;
 
 /**
  * ZoomBaseApiForYii2
