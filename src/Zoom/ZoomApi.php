@@ -4,6 +4,7 @@ namespace xiankun\Zoom;
 use GuzzleHttp\Client;
 use yii\base\Component;
 use yii\web\HttpException;
+use yii\base\InvalidParamException;
 
 /**
  * ZoomBaseApiForYii2
