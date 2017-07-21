@@ -12,11 +12,19 @@
 ## Configuration
 - yii2
 ```
-
+//zoom应用组件
+'zoom' => [
+    'class' => 'xiankun\Zoom\ZoomApi',
+    "api_key" => "",
+    "api_secret" => "",
+    "data_type" => "JSON"
+]
 ```
 
 ## Usage example
 - yii2
 ```
-
+//创建zoom用户
+$zoom = Yii::$app->zoom;
+$resource = $zoom->createUser('test1101@test.com');        
 ```
