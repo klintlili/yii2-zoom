@@ -122,14 +122,14 @@ class ZoomApi extends Component
      */
     private static function getClient()
     {
-        if (null == self::$_guzzleClient) {
-            self::$_guzzleClient = new Client([
+        if (null == self::$_guzzle_client) {
+            self::$_guzzle_client = new Client([
                 // Base URI is used with relative requests
-                'base_uri' => self::$url,
+                'base_uri' => self::ZOOM_BASE_URL,
                 'timeout'  => 2.0,
             ]);
         }
-        return self::$_guzzleClient;
+        return self::$_guzzle_client;
     }
 
     /**
@@ -159,7 +159,7 @@ class ZoomApi extends Component
         }
 
         // Return array data
-        return json_decode(contents);
+        return json_decode($contents);
     }
 
     /*Functions for management of users*/
