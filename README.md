@@ -10,7 +10,6 @@
 `composer require xiankun/zoom-yii2 "@dev" -vvv`
 
 ## Configuration
-- yii2
 ```
 //zoom应用组件
 'zoom' => [
@@ -22,7 +21,6 @@
 ```
 
 ## Usage example
-- yii2
 ```
 //创建zoom用户
 $zoom = Yii::$app->zoom;
