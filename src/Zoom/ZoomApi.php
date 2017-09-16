@@ -1,5 +1,5 @@
 <?php
-namespace xiankun\Zoom;
+namespace x1ankun\Zoom;
 
 use GuzzleHttp\Client;
 use yii\base\Component;
@@ -8,7 +8,7 @@ use yii\base\InvalidParamException;
 
 /**
  * ZoomBaseApiForYii2
- * @author xiankun.geng <ge2x3k2@gmail.com>
+ * @author x1ankun <ge2x3k2@gmail.com>
  * @time 2017-07-20
  * @version 2.0
  */

@@ -1,10 +1,10 @@
 {
-    "name": "xiankun/zoom-yii2",
+    "name": "x1ankun/yii2-zoom",
     "description": "Yii 2的扩展包装Zoom",
     "license": "MIT",
     "authors": [
         {
-            "name": "xiankun.geng",
+            "name": "x1ankun",
             "email": "ge2x3k2@gmail.com"
         }
     ],
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-		"xiankun\\Zoom\\": "src/Zoom"
+		"x1ankun\\Zoom\\": "src/Zoom"
         }
     }
 }
