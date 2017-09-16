@@ -1,4 +1,4 @@
-# Zoom-yii2
+# yii2-zoom
 
 ## What is zoom?
 
@@ -7,13 +7,13 @@
 > Official website [https://zoom.us/](https://zoom.us/)
 
 ## Install
-`composer require xiankun/zoom-yii2 "@dev" -vvv`
+`composer require x1ankun/yii2-zoom 1.0.0 -vvv`
 
 ## Configuration
 ```
 //zoom应用组件
 'zoom' => [
-    'class' => 'xiankun\Zoom\ZoomApi',
+    'class' => 'x1ankun\Zoom\ZoomApi',
     "api_key" => "",
     "api_secret" => "",
     "data_type" => "JSON"
