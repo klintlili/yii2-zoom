@@ -7,7 +7,7 @@
 > Official website [https://zoom.us/](https://zoom.us/)
 
 ## Install
-`composer require x1ankun/yii2-zoom 1.0.0 -vvv`
+`composer require x1ankun/yii2-zoom v1.0.0 -vvv`
 
 ## Configuration
 ```
