@@ -1,7 +1,8 @@
 {
     "name": "x1ankun/yii2-zoom",
     "description": "Yii 2的扩展包装Zoom",
-    "license": "MIT",
+    "keywords": ["yii2", "extension", "compents", "Zoom"],
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "x1ankun",
@@ -11,11 +12,20 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "yiisoft/yii2": "~2.0.10",
     	"guzzlehttp/guzzle": "~6.0@dev"
     },
     "autoload": {
         "psr-4": {
 		"x1ankun\\Zoom\\": "src/Zoom"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
         }
     }
 }
